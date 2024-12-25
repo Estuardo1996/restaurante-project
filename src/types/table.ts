@@ -50,3 +50,20 @@ export interface Order {
   startTime: Date;
   endTime?: Date;
 }
+// src/types/table.ts
+
+export const Order = {
+  id: 0,
+  description: 'Default Order',
+};
+
+export const Table = {
+  id: 0,
+  number: 1,
+  capacity: 4,
+};
+
+export const PaymentMethod = {
+  id: 0,
+  method: 'Credit Card', // Puedes agregar más propiedades según sea necesario
+};
