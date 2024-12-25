@@ -1,0 +1,25 @@
+/* Estilos base compartidos */
+@layer base {
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+/* Optimizaciones móviles */
+@layer utilities {
+  .mobile-safe-area {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Mejoras táctiles */
+@media (hover: none) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
