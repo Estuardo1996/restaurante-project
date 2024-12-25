@@ -1,5 +1,5 @@
 // Single responsibility: Define stock movement factory
-import { MovementType } from './constants.js';
+import { MovementType } from './constants.jsx';
 
 export const createStockMovement = ({
   itemId = '',
