@@ -1,34 +1,34 @@
 import { create } from 'zustand';
-import { Table, Order, OrderItem, Payment, Diner } from '@/types/table';
+import { v4 as uuidv4 } from 'uuid'; // Necesitarás instalar `uuid`
 
-const sampleTables: Table[] = [
+const sampleTables = [
   {
     id: '1',
     number: 1,
     capacity: 4,
     status: 'available',
-    position: { x: 0, y: 0 }
+    position: { x: 0, y: 0 },
   },
   {
     id: '2',
     number: 2,
     capacity: 2,
     status: 'occupied',
-    position: { x: 1, y: 0 }
+    position: { x: 1, y: 0 },
   },
   {
     id: '3',
     number: 3,
     capacity: 6,
     status: 'reserved',
-    position: { x: 2, y: 0 }
+    position: { x: 2, y: 0 },
   },
   {
     id: '4',
     number: 4,
     capacity: 4,
     status: 'cleaning',
-    position: { x: 0, y: 1 }
+    position: { x: 0, y: 1 },
   },
   {
     id: '5',
@@ -36,7 +36,7 @@ const sampleTables: Table[] = [
     capacity: 8,
     status: 'available',
     position: { x: 1, y: 1 },
-    joinedWith: ['6']
+    joinedWith: ['6'],
   },
   {
     id: '6',
@@ -44,64 +44,41 @@ const sampleTables: Table[] = [
     capacity: 8,
     status: 'available',
     position: { x: 2, y: 1 },
-    joinedWith: ['5']
-  }
+    joinedWith: ['5'],
+  },
 ];
 
-const sampleOrders: Order[] = [
+const sampleOrders = [
   {
     id: '1',
     tableId: '2',
     diners: [
       { id: '1', name: 'Cliente 1', orderItems: [] },
-      { id: '2', name: 'Cliente 2', orderItems: [] }
+      { id: '2', name: 'Cliente 2', orderItems: [] },
     ],
     items: [
-      { 
-        id: '1', 
-        recipeId: '1', 
-        quantity: 1, 
+      {
+        id: '1',
+        menuItemId: '1',
+        quantity: 1,
         status: 'delivered',
-        notes: 'Sin cebolla'
-      }
+        notes: 'Sin cebolla',
+      },
     ],
     payments: [],
     status: 'active',
-    startTime: new Date()
-  }
+    startTime: new Date(),
+  },
 ];
 
-interface TableState {
-  tables: Table[];
-  orders: Order[];
-  
-  // Gestión de mesas
-  addTable: (table: Omit<Table, 'id'>) => void;
-  updateTableStatus: (tableId: string, status: Table['status']) => void;
-  joinTables: (tableIds: string[]) => void;
-  unjoinTables: (tableIds: string[]) => void;
-  
-  // Gestión de órdenes
-  createOrder: (tableId: string, diners: Omit<Diner, 'id' | 'orderItems'>[]) => string;
-  addOrderItem: (orderId: string, item: Omit<OrderItem, 'id' | 'status'>) => void;
-  updateOrderItemStatus: (orderId: string, itemId: string, status: OrderItem['status']) => void;
-  splitOrderItem: (orderId: string, itemId: string, dinerIds: string[]) => void;
-  
-  // Gestión de pagos
-  addPayment: (orderId: string, payment: Omit<Payment, 'id' | 'timestamp'>) => void;
-  getDinerTotal: (orderId: string, dinerId: string) => number;
-  getOrderTotal: (orderId: string) => number;
-  getRemainingBalance: (orderId: string) => number;
-}
-
-export const useTableStore = create<TableState>((set, get) => ({
+export const useTableStore = create((set, get) => ({
   tables: sampleTables,
   orders: sampleOrders,
 
   addTable: (table) => {
-    const newTable: Table = {
+    const newTable = {
       ...table,
-      id: crypto.randomUUID(),
+      id: uuidv4(),
     };
     set((state) => ({
       tables: [...state.tables, newTable],
@@ -129,21 +106,19 @@ export const useTableStore = create<TableState>((set, get) => ({
   unjoinTables: (tableIds) => {
     set((state) => ({
       tables: state.tables.map((table) =>
-        tableIds.includes(table.id)
-          ? { ...table, joinedWith: undefined }
-          : table
+        tableIds.includes(table.id) ? { ...table, joinedWith: undefined } : table
       ),
     }));
   },
 
   createOrder: (tableId, diners) => {
-    const orderId = crypto.randomUUID();
-    const newOrder: Order = {
+    const orderId = uuidv4();
+    const newOrder = {
       id: orderId,
       tableId,
       diners: diners.map((diner) => ({
         ...diner,
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         orderItems: [],
       })),
       items: [],
@@ -163,9 +138,9 @@ export const useTableStore = create<TableState>((set, get) => ({
   },
 
   addOrderItem: (orderId, item) => {
-    const newItem: OrderItem = {
+    const newItem = {
       ...item,
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       status: 'pending',
     };
 
@@ -209,9 +184,9 @@ export const useTableStore = create<TableState>((set, get) => ({
   },
 
   addPayment: (orderId, payment) => {
-    const newPayment: Payment = {
+    const newPayment = {
       ...payment,
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       timestamp: new Date(),
     };
 

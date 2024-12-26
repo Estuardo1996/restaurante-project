@@ -7,14 +7,16 @@ export interface TablePosition {
   y: number;
 }
 
+// src/types/table.ts
 export interface Table {
   id: string;
   number: number;
   capacity: number;
-  status: TableStatus;
-  position: TablePosition;
+  status: 'available' | 'occupied' | 'reserved' | 'cleaning';
+  position: { x: number; y: number };
   joinedWith?: string[];
 }
+
 
 export interface OrderItem {
   id: string;
