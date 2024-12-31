@@ -10,6 +10,7 @@ import { SupplierList } from '@/pages/suppliers/SupplierList';
 import { LoyaltyDashboard } from '@/pages/loyalty/LoyaltyDashboard';
 import { Settings } from '@/pages/settings/Settings';
 import { useAuthStore } from '@/store/auth';
+import EmpresasPage from './pages/empresas/EmpresaList';
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -32,6 +33,7 @@ export default function App() {
         >
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="recipes" element={<RecipeList />} />
+          <Route path="empresas" element={<EmpresasPage />} />
           <Route path="inventory" element={<InventoryList />} />
           <Route path="tables" element={<TableLayout />} />
           <Route path="customers" element={<CustomerList />} />
